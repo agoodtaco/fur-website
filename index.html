@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fursuit Base Studio</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="dot"></span>
+        <h1>Fursuit Base Studio</h1>
+      </div>
+      <div class="topbar-actions">
+        <label class="file-btn">
+          <input type="file" id="file-input" accept=".stl,.obj,.glb,.gltf" hidden />
+          Choose model
+        </label>
+        <button id="export-btn" class="btn primary" disabled>Export STL</button>
+      </div>
+    </header>
+
+    <aside class="timeline" id="timeline" aria-label="Processing stages"></aside>
+
+    <main class="viewport">
+      <div id="canvas-host"></div>
+      <div class="viewport-overlay">
+        <div class="display-modes" id="display-modes">
+          <button data-mode="solid" class="chip active">Solid</button>
+          <button data-mode="wireframe" class="chip">Wireframe</button>
+          <button data-mode="xray" class="chip">X-ray</button>
+          <button data-mode="section" class="chip">Section</button>
+        </div>
+        <div class="hint" id="hint">No model loaded — showing preview head.</div>
+      </div>
+    </main>
+
+    <aside class="panel">
+      <section class="panel-block">
+        <h2>Fit</h2>
+        <div class="preset-row" id="presets"></div>
+        <label class="field">
+          <span>Scale</span>
+          <input type="range" id="scale" min="0.5" max="2" step="0.01" value="1" />
+          <output id="scale-out">1.00×</output>
+        </label>
+        <label class="field">
+          <span>Shell thickness</span>
+          <input type="range" id="thickness" min="0.005" max="0.05" step="0.001" value="0.02" />
+          <output id="thickness-out">20 mm</output>
+        </label>
+        <label class="field section-field hidden" id="section-field">
+          <span>Section depth</span>
+          <input type="range" id="section-offset" min="-1" max="1" step="0.01" value="0" />
+          <output id="section-out">0.00</output>
+        </label>
+      </section>
+
+      <section class="panel-block">
+        <h2>Features</h2>
+        <label class="field">
+          <span>Eye diameter</span>
+          <input type="range" id="eye" min="30" max="120" step="1" value="70" />
+          <output id="eye-out">70 mm</output>
+        </label>
+        <label class="field checkbox">
+          <input type="checkbox" id="mouth" checked />
+          <span>Cut mouth opening</span>
+        </label>
+      </section>
+
+      <section class="panel-block">
+        <h2>Ventilation</h2>
+        <label class="field checkbox">
+          <input type="checkbox" id="vents" checked />
+          <span>Add ventilation holes</span>
+        </label>
+        <label class="field">
+          <span>Hole density</span>
+          <input type="range" id="vent-density" min="0" max="100" step="1" value="45" />
+          <output id="vent-out">45%</output>
+        </label>
+        <p class="warning hidden" id="vent-warning">
+          Ventilation is off. This increases weight and reduces airflow.
+        </p>
+      </section>
+
+      <section class="panel-block">
+        <h2>Material</h2>
+        <label class="field select-field">
+          <span>Filament</span>
+          <select id="material"></select>
+        </label>
+      </section>
+      <section class="panel-block">
+        <h2>Estimate</h2>
+        <dl class="stats" id="estimate"></dl>
+      </section>
+
+      <section class="panel-block">
+        <h2>Validation</h2>
+        <ul class="checks" id="validation"></ul>
+        <button id="validate-btn" class="btn">Run validation</button>
+      </section>
+    </aside>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
